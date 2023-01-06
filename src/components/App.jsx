@@ -18,6 +18,27 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('savedContacts');
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    } else {
+      localStorage.setItem(
+        'savedContacts',
+        JSON.stringify(this.state.contacts)
+      );
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(
+        'savedContacts',
+        JSON.stringify(this.state.contacts)
+      );
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const name = e.target.name.value;
